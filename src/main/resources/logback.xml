@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds">
+
+    <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+        <resetJUL>true</resetJUL>
+    </contextListener>
+
+    <!-- To enable JMX Management -->
+    <jmxConfigurator/>
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder" charset="UTF-8"></encoder>
+    </appender>
+
+
+    <!-- ROOT appender -->
+    <appender name="00" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <immediateFlush>false</immediateFlush>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logDir:-.}/sif00-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder" charset="UTF-8"></encoder>
+    </appender>
+
+    <appender name="01" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <immediateFlush>true</immediateFlush>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logDir:-.}/sif01-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder" charset="UTF-8"></encoder>
+    </appender>
+
+    <appender name="02" class="ch.qos.logback.classic.AsyncAppender">
+        <appender class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <immediateFlush>false</immediateFlush>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>${logDir:-.}/sif02-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+                <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                    <maxFileSize>100MB</maxFileSize>
+                </timeBasedFileNamingAndTriggeringPolicy>
+            </rollingPolicy>
+            <encoder class="net.logstash.logback.encoder.LogstashEncoder" charset="UTF-8"></encoder>
+        </appender>
+        <queueSize>262144</queueSize>
+        <discardingThreshold>0</discardingThreshold>
+        <includeCallerData>false</includeCallerData>
+        <maxFlushTime>5000</maxFlushTime>
+        <neverBlock>true</neverBlock>
+    </appender>
+
+    <appender name="03" class="ch.qos.logback.classic.AsyncAppender">
+        <appender class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <immediateFlush>false</immediateFlush>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>${logDir:-.}/sif03-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+                <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                    <maxFileSize>100MB</maxFileSize>
+                </timeBasedFileNamingAndTriggeringPolicy>
+            </rollingPolicy>
+            <encoder class="net.logstash.logback.encoder.LogstashEncoder" charset="UTF-8"></encoder>
+        </appender>
+        <queueSize>262144</queueSize>
+        <discardingThreshold>0</discardingThreshold>
+        <includeCallerData>false</includeCallerData>
+        <maxFlushTime>5000</maxFlushTime>
+        <neverBlock>false</neverBlock>
+    </appender>
+
+
+    <appender name="04" class="net.logstash.logback.appender.LoggingEventAsyncDisruptorAppender">
+        <appender class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <immediateFlush>false</immediateFlush>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>${logDir:-.}/sif04-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+                <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                    <maxFileSize>100MB</maxFileSize>
+                </timeBasedFileNamingAndTriggeringPolicy>
+            </rollingPolicy>
+            <encoder class="net.logstash.logback.encoder.LogstashEncoder" charset="UTF-8"></encoder>
+        </appender>
+        <waitStrategyType>blocking</waitStrategyType>
+        <ringBufferSize>262144</ringBufferSize>
+        <droppedWarnFrequency>0</droppedWarnFrequency>
+    </appender>
+
+
+    <root level="info">
+        <appender-ref ref="console"/>
+    </root>
+
+    <logger name="00" level="debug" additivity="false" >
+        <appender-ref ref="00"/>
+    </logger>
+    <logger name="01" level="debug" additivity="false" >
+        <appender-ref ref="01"/>
+    </logger>
+    <logger name="02" level="debug" additivity="false" >
+        <appender-ref ref="02"/>
+    </logger>
+    <logger name="03" level="debug" additivity="false" >
+        <appender-ref ref="03"/>
+    </logger>
+    <logger name="04" level="debug" additivity="false" >
+        <appender-ref ref="04"/>
+    </logger>
+
+</configuration>
